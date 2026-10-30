@@ -344,3 +344,8 @@ body.code img{filter:grayscale(1)}
   .mode .full{display:none}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.hi-wrap{position:relative;margin-bottom:-12px}
+.hi-pic{width:150px;height:170px;object-fit:cover;object-position:50% 30%;border-radius:28px;transform:rotate(-5deg);border:5px solid var(--night-ink);box-shadow:0 30px 60px -25px #000}
+.hi-tag{position:absolute;right:-48px;top:12px;background:var(--blush);color:var(--ink);font-size:14px;font-weight:500;padding:7px 14px;border-radius:999px;transform:rotate(8deg)}
+.ask img{object-position:50% 30%}
