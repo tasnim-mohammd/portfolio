@@ -58,14 +58,14 @@ h2{font-size:clamp(36px,5.4vw,66px)}
 
 /* hero */
 .hero{position:relative;padding-block:140px 40px;overflow:hidden}
-.blob{position:absolute;border-radius:50%;background:var(--brand);filter:blur(90px);opacity:.5;pointer-events:none}
+.blob{position:absolute;border-radius:50%;background:var(--brand);filter:blur(90px);opacity:.5;pointer-events:none;will-change:transform}
 .hero-grid{display:grid;grid-template-columns:1.3fr .8fr;gap:56px;align-items:center;position:relative}
 .hero-grid>*{min-width:0}
 .hi{display:flex;align-items:center;flex-wrap:wrap;gap:10px;font-size:19px;color:var(--muted);margin-bottom:24px}
 .hi img{width:52px;height:52px;border-radius:50%;object-fit:cover;object-position:45% 50%;border:2px solid var(--paper);box-shadow:0 0 0 1px var(--line)}
 .hi strong{color:var(--ink);font-weight:500}
-.hero h1{font-size:clamp(48px,7.4vw,104px);position:relative}
-.hero h1 .it{font-size:1.1em}
+.hero h1{font-size:clamp(38px,4.3vw,66px);line-height:1.04;position:relative;text-wrap:initial}
+.hero h1 .it{font-size:1.1em;white-space:nowrap}
 .pen{position:absolute;right:-2%;top:-12%;width:52%;overflow:visible;pointer-events:none}
 .pen .curve{fill:none;stroke:var(--rose);stroke-width:2.5;stroke-linecap:round}
 .pen .handle{fill:none;stroke:var(--muted);stroke-width:1;stroke-dasharray:3 4}
@@ -113,7 +113,7 @@ h2{font-size:clamp(36px,5.4vw,66px)}
 
 /* hello */
 .hello{position:relative;padding-block:140px}
-.reveal{font-size:clamp(28px,4.4vw,54px);line-height:1.18;letter-spacing:-.03em;font-weight:500;max-width:20ch;margin:24px auto 0;text-align:center}
+.reveal{text-wrap:balance;font-size:clamp(28px,4.4vw,54px);line-height:1.18;letter-spacing:-.03em;font-weight:500;max-width:20ch;margin:24px auto 0;text-align:center}
 .reveal .w{color:color-mix(in srgb,var(--ink) 22%,var(--paper));transition:color .3s}
 .reveal .w.on{color:var(--ink)}
 .floaters{position:absolute;inset:0;pointer-events:none;max-width:1440px;margin:0 auto}
@@ -351,6 +351,7 @@ body.code img{filter:grayscale(1)}
 @media (max-width:640px){
   body{font-size:16px}
   .hero{padding-top:110px}
+  .hero h1 br{display:none}
   .s1{left:-4%}.s2{right:-4%}
   .services,.now-grid,.work-grid,.road,.incl,.traits{grid-template-columns:1fr}
   .stats{grid-template-columns:1fr}

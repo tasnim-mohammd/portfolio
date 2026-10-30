@@ -60,6 +60,19 @@ export function init() {
   if (reduced) ws.forEach((w) => w.classList.add('on'));
   else ScrollTrigger.create({ trigger: r, start: 'top 80%', end: 'bottom 40%', scrub: true,
     onUpdate: (s) => { const n = Math.round(s.progress * ws.length); ws.forEach((w, i) => w.classList.toggle('on', i < n)); } });
+  // ---------- hero glow drifts softly after the mouse
+  if (!reduced && matchMedia('(hover:hover)').matches) {
+    const b1 = $('.blob.b1'), b2 = $('.blob.b2');
+    if (b1 && b2) {
+      const q = [[b1, .14, .1], [b2, -.1, -.08]].map(([el, sx, sy]) => ({ x: gsap.quickTo(el, 'x', { duration: 2.4, ease: 'power2.out' }), y: gsap.quickTo(el, 'y', { duration: 2.4, ease: 'power2.out' }), sx, sy }));
+      window.addEventListener('mousemove', (e) => {
+        const dx = e.clientX - innerWidth / 2, dy = e.clientY - innerHeight / 2;
+        q.forEach((o) => { o.x(dx * o.sx * 2); o.y(dy * o.sy * 2); });
+      }, { passive: true });
+      gsap.to([b1, b2], { scale: 1.12, duration: 6, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: 3 });
+    }
+  }
+
   // ---------- skills as Figma layers, a cursor hops between them
   const layers = $$('.floaters .layer'), fcur = $('.fcursor');
   if (layers.length) {
