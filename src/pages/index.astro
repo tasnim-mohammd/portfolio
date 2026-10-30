@@ -1,0 +1,365 @@
+---
+import '../styles/global.css';
+const ticker = ['Designs it. Could also build it.','1,000+ minutes of expert mentorship','Mentor to 10+ fresh designers','Web Summit Qatar 2026','GrIStuF 2026, Germany','Top 5% ADPList learner','OpenBootcamp UX/UI & Product Design graduate'];
+const skills = [['R','UX Research',3,22,-4],['UF','User Flows',8,40,3],['W','UX Writing',2,58,-2],['DS','Design Systems',7,76,4],['P','Prototyping',82,22,4],['AI','AI UX',86,40,-3],['</>','Front-end',82,58,2],['PS','Product Storytelling',76,76,-4]];
+const projects = [
+  {t:'WeGo',img:'wego',tags:['Mobile','Ride-hailing'],d:'An Arabic ride-hailing app, from onboarding and booking to live trips, driver details and an AI support assistant.'},
+  {t:'MoreTech',img:'moretech',tags:['Mobile','B2B'],d:'B2B mobile app for sales teams and resellers. 70+ screens and a reusable component library, built with Radix Technologies for a client.'},
+  {t:'Nashaty',img:'nashaty',tags:['Web','Freelance'],d:'A booking platform that helps parents in Palestine find, compare and book trusted activities for their kids.'},
+  {t:'Refocus AI',img:'refocus',tags:['Dubai · Remote','Web & Decks'],d:'Website, client proposals and AI training decks for a Dubai-based AI consultancy, serving enterprise clients across the GCC.',href:'https://refocus-ai.com'},
+];
+const now = [
+  {logo:'refocus',h:20,role:'AI UX & Insight Visualisation',where:'Refocus AI · Dubai, remote',y:'2026 →',p:'Training decks, client proposals and the company website for an AI consultancy.'},
+  {logo:'itg',h:26,role:'Product Designer',where:'ITG · Hybrid',y:'2025 →',p:'Turning desktop-first enterprise workflows into clear mobile journeys.'},
+  {logo:'oppo',h:22,role:'Product Designer & Trainer',where:'OppoTrain · Nablus',y:'2023 →',p:'Hands-on UI/UX training and mentoring for students and fresh graduates.'},
+  {logo:null,h:26,role:'UI/UX Product Designer',where:'Freelance',y:'2025 →',p:'Web and mobile products for clients, from research to developer-ready files.'},
+];
+const before = [
+  {co:'Intuned',yc:true,role:'Product Designer',y:'2024 — 2025',p:'Designed and refined interfaces for a developer-focused SaaS, and contributed to its design system.'},
+  {co:'Radix Technologies',role:'Product Designer',y:'2023 — 2024',p:'Moved from code to design: research, flows and UI for client products like MoreTech.'},
+  {co:'Radix Technologies',role:'Front-End Engineer',y:'2023',p:'HTML, CSS and JavaScript, and an AI chatbot that guides tech students to internships.'},
+  {co:'An-Najah University',role:'B.Sc Software Engineering',y:'2020 — 2024',p:'Computer Science, apprenticeship programme, software engineering track.'},
+];
+const faqs = [
+  ['Do you code too?','Yes. I started as a front-end engineer, and I still build landing pages and portfolio sites with HTML, CSS and JavaScript. It also means my designs are realistic and easy for developers to ship.'],
+  ['Are you open to full-time roles?',"Yes. I'm open to Product Design and UI/UX roles, remote or hybrid."],
+  ['What kind of freelance projects do you take?',"Web and mobile products, MVPs, clickable prototypes, landing pages and UX audits. If you're not sure it fits, ask anyway."],
+  ['What tools do you use?','Figma for design and prototyping, Jira and Notion for teamwork, Draw.io for flows, and code when a prototype needs to feel real.'],
+  ['Which languages do you work in?','Arabic natively and English professionally.'],
+  ['How do we start?',"Send me a short email about your team or your product. I'll reply with a few questions and we'll set up a call."],
+];
+const code = [
+  '<span class="c">// booking-card.html</span>',
+  '<span class="t">&lt;article</span> <span class="a">class</span>=<span class="s">"card"</span><span class="t">&gt;</span>',
+  '  <span class="t">&lt;img</span> <span class="a">src</span>=<span class="s">"pottery.jpg"</span> <span class="t">/&gt;</span>',
+  '  <span class="t">&lt;h4&gt;</span>Pottery for beginners<span class="t">&lt;/h4&gt;</span>',
+  '  <span class="t">&lt;p&gt;</span>Sat · 10:00 · Nablus<span class="t">&lt;/p&gt;</span>',
+  '  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="s">"slots"</span><span class="t">&gt;</span>',
+  '    <span class="t">&lt;button</span> <span class="a">class</span>=<span class="s">"on"</span><span class="t">&gt;</span>10:00<span class="t">&lt;/button&gt;</span>',
+  '    <span class="t">&lt;button&gt;</span>12:00<span class="t">&lt;/button&gt;</span>',
+  '  <span class="t">&lt;/div&gt;</span>',
+  '  <span class="t">&lt;button</span> <span class="a">class</span>=<span class="s">"book"</span><span class="t">&gt;</span>Book now<span class="t">&lt;/button&gt;</span>',
+  '<span class="t">&lt;/article&gt;</span>',
+  '',
+  '<span class="a">.card</span> { <span class="a">border-radius</span>: <span class="s">24px</span>; }',
+];
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Tasnim Mohammd — Product Designer</title>
+<meta name="description" content="Tasnim Mohammd is a product and UX/UI designer from Palestine who helps teams turn ideas into usable products through research, thoughtful UX and polished UI." />
+<meta property="og:title" content="Tasnim Mohammd — Product Designer" />
+<meta property="og:description" content="I help teams turn ideas into usable products through research, thoughtful UX and polished UI." />
+<meta property="og:image" content="/img/wego.webp" />
+<link rel="icon" href="/img/phoenix.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" />
+<script is:inline>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Tasnim Mohammd, home"><span class="phx" aria-hidden="true"></span>Tasnim</a>
+    <nav class="nav-links" aria-label="Main"><a href="#work">Work</a><a href="#story">Story</a><a href="#experience">Experience</a><a href="#ways">Work with me</a></nav>
+    <span class="avail"><span class="dot"></span>Available for work</span>
+    <a class="btn solid" href="#contact">Let's talk</a>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="blob" style="width:440px;height:440px;left:-200px;top:60px"></div>
+  <div class="blob" style="width:420px;height:420px;right:-180px;bottom:-60px"></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div data-tag="header">
+        <p class="hi up">Hi, I'm <strong>Tasnim</strong> <img src="/img/tasnim.webp" alt="" width="40" height="40" /> Product Designer from Palestine</p>
+        <h1 class="up">I design products that feel <span class="it">effortless.</span>
+          <svg class="pen" viewBox="0 0 400 220" aria-hidden="true">
+            <path class="curve" d="M10 190 C 90 210, 120 40, 220 70 S 360 180, 390 20"/>
+            <path class="handle" d="M120 40 L 220 70 L 320 100"/>
+            <circle cx="120" cy="40" r="4"/><circle cx="320" cy="100" r="4"/>
+            <rect x="5" y="185" width="10" height="10"/><rect x="215" y="65" width="10" height="10"/><rect x="385" y="15" width="10" height="10"/>
+          </svg>
+        </h1>
+        <p class="lead up">I help teams turn ideas into usable products through research, thoughtful UX and polished UI. From the first user interview to the final handoff, I make complex flows feel clear and effortless.</p>
+        <div class="hero-cta up">
+          <a class="btn solid" href="#work">See my work <span class="arr">→</span></a>
+          <a class="btn" href="#ways">Work with me</a>
+        </div>
+      </div>
+      <div class="portrait up" data-tag="figure">
+        <div class="frame"><img src="/img/tasnim.webp" alt="Portrait of Tasnim Mohammd" width="420" height="525" /></div>
+        <span class="sticker s1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>Nablus, Palestine</span>
+        <span class="sticker s2">&lt;/&gt; → Design</span>
+        <span class="sticker s3">AI UX @ Refocus AI</span>
+      </div>
+    </div>
+    <ol class="services" data-tag="ol">
+      <li class="up"><span>#01</span><b>Product Design</b><small>End-to-end, research to prototype</small></li>
+      <li class="up"><span>#02</span><b>UX Research</b><small>Interviews, flows, usability tests</small></li>
+      <li class="up"><span>#03</span><b>AI UX & Visualisation</b><small>Making complex ideas clear</small></li>
+      <li class="up"><span>#04</span><b>Design + Front-end</b><small>Landing & portfolio sites, designed and coded</small></li>
+    </ol>
+  </div>
+</section>
+
+<div class="ticker" aria-label="Highlights">
+  <div class="track">
+    {[0,1].map(k => ticker.map(s => <span aria-hidden={k===1 ? 'true' : undefined}>{s} <i class="phx"></i></span>))}
+  </div>
+</div>
+
+<section class="clients">
+  <div class="wrap">
+    <p>Teams I've<br/>designed with</p>
+    <ul data-tag="ul">
+      <li><span class="lg" style="--src:url(/img/logo-refocus.svg);width:142px;height:27px" role="img" aria-label="Refocus AI"></span></li>
+      <li><span class="lg" style="--src:url(/img/logo-itg.svg);width:73px;height:30px" role="img" aria-label="ITG"></span></li>
+      <li><span class="lg" style="--src:url(/img/logo-oppo.svg);width:130px;height:26px" role="img" aria-label="OppoTrain"></span></li>
+      <li><span class="lg" style="--src:url(/img/logo-intuned.svg);width:131px;height:26px" role="img" aria-label="Intuned"></span><span class="yc">YC S22</span></li>
+      <li><span class="lg" style="--src:url(/img/logo-radix.svg);width:26px;height:30px" role="img" aria-label="Radix"></span><span class="radix-t">RADIX TECHNOLOGIES</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="hello">
+  <div class="floaters" aria-hidden="true">
+    {skills.map(([i,l,x,y,r]) => <span class="pill" style={`left:${x}%;top:${y}%;transform:rotate(${r}deg)`}><i>{i}</i>{l}</span>)}
+  </div>
+  <div class="wrap">
+    <p class="label">Hello!</p>
+    <p class="reveal" id="reveal" data-tag="p">I help teams turn complex ideas into products people actually enjoy using, with one foot in design and one in code.</p>
+  </div>
+</section>
+
+<section class="sheet on-dark work" id="work">
+  <div class="wrap">
+    <p class="label">Give it a look</p>
+    <h2 class="center" style="margin-top:14px">Real problems, <span class="it">real screens.</span></h2>
+    <div class="work-grid">
+      {projects.map(p => {
+        const Tag = p.href ? 'a' : 'article';
+        return (
+          <Tag class="proj up" data-tag="article" {...(p.href ? {href:p.href,target:'_blank',rel:'noopener'} : {})}>
+            <div class="art"><img src={`/img/${p.img}.webp`} alt={`${p.t} project screens`} loading="lazy" width="1160" height="800" /></div>
+            <div class="meta"><h3>{p.t}</h3><div class="tags">{p.tags.map(t => <span class="tag">{t}</span>)}</div></div>
+            <p>{p.d}</p>
+          </Tag>
+        );
+      })}
+    </div>
+    <p class="nda">Some of my best work lives under NDA. I'm happy to walk you through it on a call.</p>
+    <div class="end"><a class="btn" href="https://www.behance.net/tasnimmohammd2" target="_blank" rel="noopener">More on Behance <span class="arr">↗</span></a></div>
+  </div>
+</section>
+
+<section class="rebirth" id="story" aria-label="My story">
+  <div class="rb-stage" id="rbStage">
+    <div class="scene scene-dev on-dark">
+      <div class="inner">
+        <div><p class="rb-kicker">// chapter 01 · the developer</p><h2 class="rb-title" style="margin-top:12px">I didn't start as a designer.</h2></div>
+        <div class="rb-grid">
+          <div class="editor" id="editor">
+            <div class="bar"><i></i><i></i><i></i><span>booking-card.html</span></div>
+            <pre>{code.map(l => <span class="ln" set:html={l || ' '} />)}</pre>
+          </div>
+          <div class="side">
+            <ul class="tl" id="devTl">
+              <li><span><time>2020</time><b>B.Sc Software Engineering</b><small>An-Najah National University</small></span></li>
+              <li><span><time>2023</time><b>Front-end engineer</b><small>Radix Technologies</small></span></li>
+              <li><span><time>2023</time><b>Opportrain chatbot</b><small>Conversational AI for tech students</small></span></li>
+            </ul>
+            <div class="chat" id="chat">
+              <span class="who"><i>M</i>My mentor · final year, 2023</span>
+              <p class="bubble">You may not be one of the top five developers here, but you could be one of the <em>top five designers.</em></p>
+              <span class="typing" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene scene-design" id="sceneDesign">
+      <div class="inner">
+        <div><p class="rb-kicker">The rebirth</p><h2 class="rb-title" style="margin-top:8px">I <span class="it">grew</span> into one.</h2></div>
+        <div class="rb-grid">
+          <div style="position:relative;display:grid">
+            <div class="design-card" id="dcard">
+              <div class="ph"></div>
+              <div><h4>Pottery for beginners</h4><p class="sub">Sat · 10:00 · Nablus</p></div>
+              <div class="slots"><span class="on">10:00</span><span>12:00</span></div>
+              <button class="book" type="button" tabindex="-1">Book now</button>
+            </div>
+          </div>
+          <ul class="tl" id="desTl">
+            <li><span><time>2023</time><b>The challenge</b><small>A to-do app and my first user interviews</small></span></li>
+            <li><span><time>2023 — 2025</time><b>OpenBootcamp</b><small>UX/UI & Product Design programme</small></span></li>
+            <li><span><time>2024</time><b>Intuned (YC S22)</b><small>Product designer on a SaaS team</small></span></li>
+            <li><span><time>2025</time><b>ITG + freelance</b><small>Enterprise and client products</small></span></li>
+            <li class="now"><span><time>Now</time><b>Refocus AI</b><small>AI UX & Insight Visualisation</small></span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <svg class="winds" id="winds" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M-50 900 C 200 700, 400 760, 620 520 S 900 260, 1080 80"/>
+      <path d="M-80 820 C 160 640, 380 700, 560 470 S 860 200, 1060 20"/>
+      <path d="M0 980 C 260 780, 480 820, 700 600 S 960 360, 1100 200"/>
+    </svg>
+    <canvas class="rb-canvas" id="rbCanvas" aria-hidden="true"></canvas>
+    <span class="phoenix-fly phx" id="phoenix" aria-hidden="true"></span>
+    <p class="rb-hint" id="rbHint">scroll to see what happened ↓</p>
+  </div>
+</section>
+
+<section class="exp" id="experience">
+  <div class="wrap">
+    <p class="label">About me</p>
+    <h2 class="center" style="margin-top:14px">Pushing pixels <span class="it">since 2023.</span></h2>
+    <div class="sub-h" style="margin-top:64px"><h3>Right now</h3><span>4 roles · 1 mindset</span></div>
+    <div class="now-grid">
+      {now.map(n => (
+        <article class="now-card up" data-tag="article">
+          <div class="top">
+            {n.logo ? <span class="lg" style={`--src:url(/img/logo-${n.logo}.svg);height:${n.h}px;width:${n.logo==='refocus'?106:n.logo==='itg'?63:120}px`} role="img" aria-label={n.where.split(' ·')[0]}></span> : <span class="phx" style="width:22px;height:28px;color:var(--deep)" aria-hidden="true"></span>}
+            <span class="live"><span class="dot"></span>{n.y}</span>
+          </div>
+          <div><b>{n.role}</b><br/><small>{n.where}</small></div>
+          <p>{n.p}</p>
+        </article>
+      ))}
+    </div>
+    <div class="sub-h"><h3>Before</h3><span>hover a row</span></div>
+    <ul class="before" id="before">
+      {before.map(b => (
+        <li data-p={b.p} data-t={b.role}>
+          <span><span class="co">{b.co}{b.yc && <span class="yc" style="font-size:13px;margin-left:12px;vertical-align:middle">YC S22</span>}</span><span class="role">{b.role}</span></span>
+          <time>{b.y}</time>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <div class="preview" id="preview" aria-hidden="true"><b></b><p></p></div>
+</section>
+
+<section class="give">
+  <div class="wrap">
+    <div class="give-top">
+      <div>
+        <p class="label left">Giving back</p>
+        <h2 style="margin-top:14px">I grow designers, <span class="it">too.</span></h2>
+        <p style="color:var(--muted);margin-top:20px;max-width:46ch">At OppoTrain I run hands-on UI/UX training and mentor students and fresh graduates through real projects, from research to a portfolio they're proud of.</p>
+      </div>
+      <div class="stats" data-tag="dl">
+        <div><strong data-count="10">10+</strong><span>trainees mentored</span></div>
+        <div><strong data-count="1000">1,000+</strong><span>minutes of expert mentorship I received</span></div>
+        <div><strong>Top 5%</strong><span>ADPList learners, 2024</span></div>
+      </div>
+    </div>
+    <div class="road-h"><div><p class="label left">On the road</p><h2 style="margin-top:14px;font-size:clamp(32px,4vw,52px)">Learning beyond <span class="it">borders.</span></h2></div></div>
+    <div class="road">
+      <article class="trip qa up" data-tag="article">
+        <span class="pin"></span>
+        <div class="where"><span class="chip">Doha, Qatar · Feb 2026</span><span class="coords">25.28° N<br/>51.52° E</span></div>
+        <div><h3>Web Summit Qatar</h3><p>Represented OppoTrain at booth A4-21, talking AI, early-stage products and building meaningful tech in our region.</p></div>
+      </article>
+      <a class="trip de up" data-tag="article" href="https://lnkd.in/dS6inrXP" target="_blank" rel="noopener">
+        <span class="pin" style="right:30%;top:30%"></span>
+        <div class="where"><span class="chip">Greifswald, Germany · Jun 2026</span><span class="coords">54.09° N<br/>13.38° E</span></div>
+        <div><h3>GrIStuF festival</h3><p>An international student festival, where I joined every UX, AI and tech workshop I could find. I came back questioning every scroll.</p><span class="read">Read the story ↗</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="ways" id="ways">
+  <div class="wrap">
+    <p class="label">Let's work together</p>
+    <h2 class="center" style="margin-top:14px">Two ways to <span class="it">work with me.</span></h2>
+    <div class="switch">
+      <button class="lbl act" id="lblRole" type="button">Full-time role</button>
+      <button class="tog" id="tog" role="switch" aria-checked="false" aria-label="Show freelance details" type="button"></button>
+      <button class="lbl" id="lblFree" type="button">Freelance project</button>
+    </div>
+    <div class="wcard" data-tag="article">
+      <div id="paneRole">
+        <h3>Best if you're growing a product team</h3>
+        <p class="status" style="margin:14px 0 20px"><span class="dot"></span>Open to remote and hybrid roles</p>
+        <ul class="incl">
+          <li>End-to-end ownership, from research to hi-fi prototypes</li><li>Engineering background, so handoffs are smooth</li>
+          <li>Presenting UX decisions to international clients</li><li>Enterprise, SaaS, learning and AI products</li>
+          <li>Mentoring experience to help juniors level up</li><li>Comfortable in fast, cross-functional teams</li>
+        </ul>
+      </div>
+      <div id="paneFree" hidden>
+        <h3>Best if you have a product to shape</h3>
+        <p class="status" style="margin:14px 0 20px"><span class="dot"></span>Booking open for new projects</p>
+        <ul class="incl">
+          <li>Web and mobile product design</li><li>Clickable prototypes for demos and investors</li>
+          <li>UX audits of existing products</li><li>Landing pages and portfolio sites, designed and coded</li>
+          <li>AI product UX and visual explainers</li><li>Developer-ready files and specs</li>
+        </ul>
+      </div>
+      <a class="btn solid" href="#contact">Start a conversation <span class="arr">→</span></a>
+    </div>
+    <div class="traits">
+      <div><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg>Code-literate</div>
+      <div><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Research-led</div>
+      <div><svg viewBox="0 0 24 24"><path d="M4 12h16M14 6l6 6-6 6"/></svg>Smooth handoff</div>
+      <div><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h6"/></svg>Clear process</div>
+      <div><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 7l-5 1 1-4a8 8 0 1 1 16-4z"/></svg>Thoughtful feedback</div>
+      <div><svg viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>Fast iteration</div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap">
+    <p class="label">FAQ</p>
+    <h2 class="center" style="margin-top:14px">Your questions, <span class="it">answered.</span></h2>
+    <div class="faq-grid">
+      <aside class="ask" data-tag="aside">
+        <div class="who"><img src="/img/tasnim.webp" alt="" width="70" height="70" /><span>Have more <b style="font-weight:600">questions?</b></span></div>
+        <a class="btn solid" href="#contact">Let's talk <span class="arr">→</span></a>
+        <small>or email me at <b>tasnim.mohammd2@gmail.com</b></small>
+      </aside>
+      <div>{faqs.map(([q,a],i) => <details open={i===0}><summary>{q}</summary><p>{a}</p></details>)}</div>
+    </div>
+  </div>
+</section>
+
+<section class="sheet on-dark contact" id="contact">
+  <div class="wrap">
+    <p class="label">Open for conversation</p>
+    <h2>Let's <span class="it">connect.</span></h2>
+    <p class="sub">Whether you're hiring or building something new, I'd love to hear about it.</p>
+    <div class="mail"><code id="mail">tasnim.mohammd2@gmail.com</code><button class="btn solid" id="copyBtn" type="button">Copy email</button></div>
+    <div class="socials">
+      <a href="https://www.linkedin.com/in/tasnimmohammd/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://www.behance.net/tasnimmohammd2" target="_blank" rel="noopener">Behance ↗</a>
+      <a href="https://medium.com/@tasnim.mohammd2" target="_blank" rel="noopener">Medium ↗</a>
+    </div>
+    <p class="end-line">You scrolled this far. That's a sign.</p>
+    <div class="foot"><span><span class="phx" aria-hidden="true"></span>© 2026 Tasnim Mohammd</span><span>Designed in Figma, built in code.</span></div>
+  </div>
+</section>
+</main>
+
+<div class="mode" role="group" aria-label="View mode">
+  <button type="button" id="mDesign" aria-pressed="true">✦<span class="full"> Designer</span></button>
+  <button type="button" id="mCode" aria-pressed="false">&lt;/&gt;<span class="full"> Developer</span></button>
+</div>
+
+<script>
+  import { init } from '../scripts/main.js';
+  init();
+</script>
+</body>
+</html>
