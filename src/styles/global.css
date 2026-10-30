@@ -61,7 +61,7 @@ h2{font-size:clamp(36px,5.4vw,66px)}
 .glow{position:absolute;left:0;top:0;width:300px;height:300px;margin:-150px 0 0 -150px;border-radius:50%;background:var(--brand);filter:blur(55px);opacity:0;pointer-events:none;will-change:transform,opacity;transition:opacity 1.2s ease}
 .hero.lit .glow{opacity:.55}
 .spark{position:absolute;left:0;top:0;pointer-events:none;z-index:3;will-change:transform,opacity}
-.spark svg{display:block;width:100%;height:100%;filter:drop-shadow(0 0 6px rgba(240,193,174,.9))}
+.spark{border-radius:50%}
 .hero .wrap{position:relative}
 .blob{position:absolute;border-radius:50%;background:var(--brand);filter:blur(90px);opacity:.5;pointer-events:none;will-change:transform}
 .hero-grid{display:grid;grid-template-columns:1.3fr .8fr;gap:56px;align-items:center;position:relative}
@@ -211,8 +211,9 @@ h2{font-size:clamp(36px,5.4vw,66px)}
 .design-card .book{border:0;border-radius:999px;padding:13px;background:var(--deep);color:#fff;font:500 15px var(--sans)}
 .cursor{position:absolute;display:flex;align-items:flex-start;gap:4px;pointer-events:none}
 .cursor span{background:var(--deep);color:#fff;font-size:12px;padding:3px 9px;border-radius:999px;margin-top:14px}
-.phoenix-fly{position:absolute;left:0;top:0;width:clamp(180px,22vw,320px);aspect-ratio:540/702;color:var(--blush);z-index:6;pointer-events:none;opacity:0;filter:drop-shadow(0 0 30px rgba(240,193,174,.65))}
+.phoenix-fly{position:absolute;left:0;top:0;width:clamp(180px,22vw,320px);aspect-ratio:540/702;color:var(--blush);z-index:6;pointer-events:none;opacity:0;filter:drop-shadow(0 0 10px rgba(255,196,130,.9)) drop-shadow(0 0 34px rgba(255,120,50,.7))}
 .rb-canvas{position:absolute;inset:0;z-index:5;pointer-events:none}
+.burn-canvas{position:absolute;inset:0;z-index:3;pointer-events:none;width:100%;height:100%}
 .winds{position:absolute;inset:0;z-index:4;pointer-events:none;width:100%;height:100%}
 .winds path{fill:none;stroke:var(--blush);stroke-width:1.5;stroke-linecap:round;opacity:.0}
 .rb-hint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font:12px var(--mono);color:var(--night-muted);z-index:7;display:flex;gap:8px;align-items:center}
@@ -220,7 +221,7 @@ h2{font-size:clamp(36px,5.4vw,66px)}
 .rm .scene{position:relative;inset:auto;min-height:auto;padding-block:100px}
 .rm .scene-design{clip-path:none}
 .rm .editor .ln,.rm .tl li,.rm .chat,.rm .design-card{opacity:1}
-.rm .phoenix-fly,.rm .rb-canvas,.rm .winds,.rm .rb-hint{display:none}
+.rm .phoenix-fly,.rm .rb-canvas,.rm .burn-canvas,.rm .winds,.rm .rb-hint{display:none}
 
 /* experience */
 .exp{padding-block:140px 80px}

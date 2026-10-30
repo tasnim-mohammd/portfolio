@@ -67,17 +67,19 @@ export function init() {
       const gx = gsap.quickTo(glow, 'x', { duration: 1.6, ease: 'power3.out' }), gy = gsap.quickTo(glow, 'y', { duration: 1.6, ease: 'power3.out' });
       const drift = [[b1, .3, .22], [b2, -.22, -.18]].filter(([el]) => el).map(([el, sx, sy]) => ({ x: gsap.quickTo(el, 'x', { duration: 2.6, ease: 'power2.out' }), y: gsap.quickTo(el, 'y', { duration: 2.6, ease: 'power2.out' }), sx, sy }));
       let first = true, lastT = 0, lx = 0, ly = 0;
-      const tones = ['#ffffff', '#F0C1AE', '#C3999E', '#B07A85'];
+      const tones = ['#FFE3C4', '#F6B98F', '#F0C1AE', '#E39478', '#C3999E'];
       const spark = (x, y) => {
-        const s = document.createElement('span'), size = gsap.utils.random(10, 19);
-        s.className = 'spark';
-        s.innerHTML = `<svg viewBox="0 0 24 24"><path fill="${tones[(Math.random() * tones.length) | 0]}" d="M12 0c.7 6.6 5.4 11.3 12 12-6.6.7-11.3 5.4-12 12-.7-6.6-5.4-11.3-12-12C6.6 11.3 11.3 6.6 12 0z"/></svg>`;
-        Object.assign(s.style, { width: `${size}px`, height: `${size}px` });
-        hero.appendChild(s);
-        const ox = gsap.utils.random(-18, 18), oy = gsap.utils.random(-18, 18);
-        gsap.timeline({ onComplete: () => s.remove() })
-          .fromTo(s, { x: x + ox - size / 2, y: y + oy - size / 2, scale: 0, rotation: 0, opacity: 1 }, { scale: 1, rotation: 90, duration: .35, ease: 'back.out(3)' })
-          .to(s, { y: `-=${gsap.utils.random(14, 30)}`, scale: 0, rotation: 180, opacity: 0, duration: 1, ease: 'power2.in' }, .45);
+        const n = Math.random() < .5 ? 1 : 2;
+        for (let i = 0; i < n; i++) {
+          const s = document.createElement('span'), size = gsap.utils.random(3, 7), c = tones[(Math.random() * tones.length) | 0];
+          s.className = 'spark';
+          Object.assign(s.style, { width: `${size}px`, height: `${size}px`, background: c, boxShadow: `0 0 ${size * 2}px ${size * .6}px ${c}` });
+          hero.appendChild(s);
+          const sx = x + gsap.utils.random(-14, 14) - size / 2, sy = y + gsap.utils.random(-8, 10) - size / 2;
+          gsap.timeline({ onComplete: () => s.remove() })
+            .fromTo(s, { x: sx, y: sy, scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: .2, ease: 'power2.out' })
+            .to(s, { y: sy - gsap.utils.random(40, 90), x: sx + gsap.utils.random(-22, 22), scale: .2, opacity: 0, duration: gsap.utils.random(1.1, 1.8), ease: 'sine.out' }, .15);
+        }
       };
       gsap.to(glow, { scale: 1.18, duration: 1.8, ease: 'sine.inOut', yoyo: true, repeat: -1 });
       hero.addEventListener('mousemove', (e) => {
@@ -236,12 +238,86 @@ function rebirth() {
     const s = .7 + Math.sin(t * Math.PI) * .55;
     const pw = phoenix.offsetWidth, ph = phoenix.offsetHeight;
     gsap.set(phoenix, { x: x * w - pw / 2, y: y * h - ph / 2, rotation: ang * .35, scale: s, opacity: t > 0 && t < 1 ? Math.min(1, t * 8, (1 - t) * 6) : 0 });
-    const rad = Math.max(0, (t - .1) / .9) * 260;
-    design.style.clipPath = t >= .97 ? 'none' : `circle(${rad}% at ${(x * 100).toFixed(1)}% ${(y * 100).toFixed(1)}%)`;
     winds.forEach((p, i) => { const L = +p.dataset.l; const k = Math.min(1, Math.max(0, (t - i * .06) * 1.4)); p.style.strokeDashoffset = L * 1.25 - k * L * 1.5; p.style.opacity = Math.sin(k * Math.PI) * .8; });
     if (fx) fx.update(t, x * w, y * h);
   }
   render(0);
+  burn();
+
+  // ---------- the dark page burns away like paper, revealing the design world
+  function burn() {
+    const cv = $('#burnCanvas'), ctx = cv.getContext('2d');
+    const rnd = (a, b) => a + Math.random() * (b - a);
+    const IGN = [.08, .24, .4, .55, .7].map((ti, i) => ({
+      ti, ox: rnd(-.06, .06), oy: rnd(-.06, .06),
+      h: [3, 5, 8, 13, 21, 34, 55, 89].map((k, n) => ({ k, a: [.09, .06, .04, .025, .014, .008, .004, .0025][n] * rnd(.7, 1.3), ph: rnd(0, 6.28), w: rnd(.4, 1.2) * (n > 2 ? 2.2 : .5) * (Math.random() < .5 ? -1 : 1) })),
+    }));
+    const END = .93, SEG = 140;
+    let W = 0, H = 0, pr = 1, raf = 0, last = 0;
+    const embers = [];
+    const fit = () => { pr = Math.min(devicePixelRatio, 2); W = stage.clientWidth; H = stage.clientHeight; cv.width = W * pr; cv.height = H * pr; };
+    fit(); addEventListener('resize', fit);
+    const blobs = (t, tau) => {
+      const diag = Math.hypot(W, H);
+      return IGN.filter((b) => t > b.ti).map((b) => {
+        const [bx, by] = bez(b.ti);
+        const k = Math.min(1, (t - b.ti) / (END - b.ti));
+        return { cx: (bx + b.ox) * W, cy: (by + b.oy) * H, R: Math.pow(k, 1.25) * diag * 1.15 + 6, b, tau };
+      });
+    };
+    const rAt = (o, th) => o.R * (1 + o.b.h.reduce((s, q) => s + q.a * Math.sin(q.k * th + q.ph + q.w * o.tau), 0));
+    const pts = (o, inset = 0) => { const a = [], seg = Math.round(Math.min(420, Math.max(SEG, o.R / 4))); for (let i = 0; i < seg; i++) { const th = i / seg * 6.2832, r = Math.max(0, rAt(o, th) - inset); a.push([o.cx + Math.cos(th) * r, o.cy + Math.sin(th) * r]); } return a; };
+    const pathOf = (list, inset) => { const p = new Path2D(); list.forEach((o) => { pts(o, inset).forEach(([x, y], i) => (i ? p.lineTo(x, y) : p.moveTo(x, y))); p.closePath(); }); return p; };
+    const inside = (list, x, y, skip) => list.some((o) => o !== skip && Math.hypot(x - o.cx, y - o.cy) < rAt(o, Math.atan2(y - o.cy, x - o.cx)) - 2);
+    function frame(now) {
+      raf = requestAnimationFrame(frame);
+      const dt = Math.min(.05, (now - (last || now)) / 1000); last = now;
+      const t = state.flight, tau = now / 1000, list = blobs(t, tau);
+      // clip the design scene to the burnt holes
+      if (t >= .97) design.style.clipPath = 'none';
+      else if (!list.length) design.style.clipPath = 'circle(0% at 0 0)';
+      else design.style.clipPath = `path('${list.map((o) => 'M' + pts(o).map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`).join('L') + 'Z').join('')}')`;
+      ctx.setTransform(pr, 0, 0, pr, 0, 0); ctx.clearRect(0, 0, W, H);
+      const fade = t < .9 ? 1 : Math.max(0, 1 - (t - .9) / .07);
+      if (list.length && fade > 0) {
+        const edge = pathOf(list, 0), flick = .82 + Math.sin(tau * 13) * .08 + Math.sin(tau * 31) * .06;
+        ctx.save(); ctx.globalAlpha = fade;
+        ctx.lineJoin = 'round';
+        ctx.strokeStyle = 'rgba(40,14,6,.85)'; ctx.lineWidth = 46; ctx.stroke(edge);           // char
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.shadowColor = 'rgba(255,90,20,.95)'; ctx.shadowBlur = 34;
+        ctx.strokeStyle = `rgba(255,70,20,${.35 * flick})`; ctx.lineWidth = 22; ctx.stroke(edge);  // heat
+        ctx.shadowBlur = 14;
+        ctx.strokeStyle = `rgba(255,140,50,${.8 * flick})`; ctx.lineWidth = 7; ctx.stroke(edge);   // flame
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = `rgba(255,236,190,${.95 * flick})`; ctx.lineWidth = 2.2; ctx.stroke(edge); // core
+        ctx.globalCompositeOperation = 'destination-out'; ctx.globalAlpha = 1;
+        ctx.fill(pathOf(list, 1.5));                                                              // keep only the outer rim
+        ctx.restore();
+        // spawn embers along the living edge
+        if (t < .9) for (let n = 0; n < 10; n++) {
+          const o = list[(Math.random() * list.length) | 0], th = Math.random() * 6.2832, r = rAt(o, th);
+          const x = o.cx + Math.cos(th) * r, y = o.cy + Math.sin(th) * r;
+          if (x < -10 || y < -10 || x > W + 10 || y > H + 10 || inside(list, x, y, o)) continue;
+          embers.push({ x, y, vx: rnd(-20, 20), vy: rnd(-110, -35), life: 0, max: rnd(.7, 1.9), s: rnd(1, 3), wob: rnd(0, 6) });
+        }
+      }
+      // embers
+      ctx.save(); ctx.globalCompositeOperation = 'lighter';
+      for (let i = embers.length - 1; i >= 0; i--) {
+        const e = embers[i]; e.life += dt;
+        if (e.life > e.max) { embers.splice(i, 1); continue; }
+        const k = e.life / e.max;
+        e.x += (e.vx + Math.sin(tau * 3 + e.wob) * 18) * dt; e.y += e.vy * dt; e.vy *= .995;
+        const g = k < .3 ? [255, 241, 201] : k < .65 ? [255, 176, 103] : [226, 85, 58];
+        ctx.fillStyle = `rgba(${g[0]},${g[1]},${g[2]},${(1 - k) * .95})`;
+        ctx.beginPath(); ctx.arc(e.x, e.y, e.s * (1 - k * .5), 0, 6.2832); ctx.fill();
+      }
+      ctx.restore();
+      if (embers.length > 600) embers.splice(0, embers.length - 600);
+    }
+    new IntersectionObserver(([e]) => { cancelAnimationFrame(raf); last = 0; if (e.isIntersecting) raf = requestAnimationFrame(frame); }).observe(section);
+  }
 
   async function loadFx() {
     fx = { update() {} };
