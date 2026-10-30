@@ -21,6 +21,15 @@ export function init() {
     const el = id === '#top' ? document.body : $(id);
     if (!el) return;
     e.preventDefault();
+    const end = a.dataset.end && $(a.dataset.end);
+    if (end) {
+      // scroll so the whole section top is visible, but never hide its main call to action
+      const top = el.getBoundingClientRect().top + scrollY - 70;
+      const ctaBottom = end.getBoundingClientRect().bottom + scrollY + 40;
+      const y = Math.max(top, ctaBottom - innerHeight);
+      lenis ? lenis.scrollTo(y) : scrollTo({ top: y, behavior: 'smooth' });
+      return;
+    }
     lenis ? lenis.scrollTo(el, { offset: id === '#top' ? 0 : -70 }) : el.scrollIntoView({ behavior: 'smooth' });
   }));
 
@@ -40,8 +49,7 @@ export function init() {
     });
     const curve = $('.pen .curve');
     if (curve) { const L = curve.getTotalLength(); gsap.fromTo(curve, { strokeDasharray: L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 2, ease: 'power2.inOut', delay: .6 }); }
-    gsap.from('.pen circle, .pen rect, .pen .handle', { opacity: 0, scale: 0, transformOrigin: 'center', duration: .5, stagger: .1, delay: 1.6 });
-    gsap.from('.sticker', { scale: 0, opacity: 0, duration: .8, ease: 'back.out(2)', stagger: .15, delay: .9 });
+        gsap.from('.sticker', { scale: 0, opacity: 0, duration: .8, ease: 'back.out(2)', stagger: .15, delay: .9 });
   }
 
   // ---------- hello word reveal
