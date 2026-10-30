@@ -60,8 +60,42 @@ export function init() {
   if (reduced) ws.forEach((w) => w.classList.add('on'));
   else ScrollTrigger.create({ trigger: r, start: 'top 80%', end: 'bottom 40%', scrub: true,
     onUpdate: (s) => { const n = Math.round(s.progress * ws.length); ws.forEach((w, i) => w.classList.toggle('on', i < n)); } });
-  if (!reduced && matchMedia('(min-width:1001px)').matches) {
-    $$('.floaters .pill').forEach((p) => gsap.to(p, { y: gsap.utils.random(-14, 14), x: gsap.utils.random(-8, 8), duration: gsap.utils.random(2.5, 4), ease: 'sine.inOut', yoyo: true, repeat: -1 }));
+  // ---------- skills as Figma layers, a cursor hops between them
+  const layers = $$('.floaters .layer'), fcur = $('.fcursor');
+  if (layers.length) {
+    let cur = -1, timer = null, paused = false;
+    const select = (i) => {
+      if (i === cur) return; cur = i;
+      layers.forEach((l, k) => l.classList.toggle('sel', k === i));
+      const l = layers[i];
+      $('.dim', l).textContent = `${l.offsetWidth} × ${l.offsetHeight}`;
+      if (fcur && getComputedStyle(fcur).display !== 'none') {
+        const x = l.offsetLeft + l.offsetWidth - 10, y = l.offsetTop + l.offsetHeight - 8;
+        if (reduced || !fcur.classList.contains('on')) { gsap.set(fcur, { x, y }); fcur.classList.add('on'); }
+        else gsap.to(fcur, { x, y, duration: .9, ease: 'power3.inOut' });
+      }
+    };
+    const next = () => { if (!paused) select((cur + 1 + Math.floor(Math.random() * (layers.length - 1))) % layers.length); };
+    layers.forEach((l, k) => {
+      l.addEventListener('mouseenter', () => { paused = true; select(k); });
+      l.addEventListener('mouseleave', () => { paused = false; });
+    });
+    new IntersectionObserver(([e]) => {
+      clearInterval(timer);
+      if (e.isIntersecting) { if (cur < 0) select(0); if (!reduced) timer = setInterval(next, 1900); }
+    }).observe($('.hello'));
+  }
+
+  // ---------- buttons: bloom from the cursor + gentle magnet
+  if (matchMedia('(hover:hover)').matches) {
+    $$('.btn').forEach((b) => {
+      const qx = reduced ? null : gsap.quickTo(b, 'x', { duration: .5, ease: 'power3' });
+      const qy = reduced ? null : gsap.quickTo(b, 'y', { duration: .5, ease: 'power3' });
+      const at = (e) => { const r = b.getBoundingClientRect(); b.style.setProperty('--x', `${e.clientX - r.left}px`); b.style.setProperty('--y', `${e.clientY - r.top}px`); return r; };
+      b.addEventListener('mouseenter', at);
+      b.addEventListener('mousemove', (e) => { const r = at(e); if (qx) { qx((e.clientX - r.left - r.width / 2) * .22); qy((e.clientY - r.top - r.height / 2) * .3); } });
+      b.addEventListener('mouseleave', (e) => { at(e); if (qx) { qx(0); qy(0); } });
+    });
   }
 
   // ---------- work card tilt

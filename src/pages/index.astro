@@ -1,12 +1,12 @@
 ---
 import '../styles/global.css';
 const ticker = ['Designs it. Could also build it.','1,000+ minutes of expert mentorship','Mentor to 10+ fresh designers','Web Summit Qatar 2026','GrIStuF 2026, Germany','Top 5% ADPList learner','OpenBootcamp UX/UI & Product Design graduate'];
-const skills = [['R','UX Research',3,22,-4],['UF','User Flows',8,40,3],['W','UX Writing',2,58,-2],['DS','Design Systems',7,76,4],['P','Prototyping',82,22,4],['AI','AI UX',86,40,-3],['</>','Front-end',82,58,2],['PS','Product Storytelling',76,76,-4]];
+const skills = [['UX Research',5,20],['User Flows',11,40],['UX Writing',4,60],['Design Systems',9,79],['Prototyping',82,20],['AI UX',87,40],['Front-end',83,60],['Product Storytelling',75,79]];
 const projects = [
   {t:'WeGo',img:'wego',tags:['Mobile','Ride-hailing'],d:'An Arabic ride-hailing app, from onboarding and booking to live trips, driver details and an AI support assistant.'},
   {t:'MoreTech',img:'moretech',tags:['Mobile','B2B'],d:'B2B mobile app for sales teams and resellers. 70+ screens and a reusable component library, built with Radix Technologies for a client.'},
   {t:'Nashaty',img:'nashaty',tags:['Web','Freelance'],d:'A booking platform that helps parents in Palestine find, compare and book trusted activities for their kids.'},
-  {t:'Refocus AI',img:'refocus',tags:['Dubai · Remote','Web & Decks'],d:'Website, client proposals and AI training decks for a Dubai-based AI consultancy, serving enterprise clients across the GCC.',href:'https://refocus-ai.com'},
+  {t:'Refocus AI',img:'refocus',tags:['Dubai · Remote','Web & Decks'],d:'Website, client proposals and AI training decks for a Dubai-based AI consultancy, serving enterprise clients across the GCC.'},
 ];
 const now = [
   {logo:'refocus',h:20,role:'AI UX & Insight Visualisation',where:'Refocus AI · Dubai, remote',y:'2026 →',p:'Training decks, client proposals and the company website for an AI consultancy.'},
@@ -99,7 +99,7 @@ const code = [
       <li class="up"><span>#01</span><b>Product Design</b><small>End-to-end, research to prototype</small></li>
       <li class="up"><span>#02</span><b>UX Research</b><small>Interviews, flows, usability tests</small></li>
       <li class="up"><span>#03</span><b>AI UX & Visualisation</b><small>Making complex ideas clear</small></li>
-      <li class="up"><span>#04</span><b>Design + Front-end</b><small>Landing & portfolio sites, designed and coded</small></li>
+      <li class="up"><span>#04</span><b>Design + Front-end</b><small>Landing pages, designed & coded</small></li>
     </ol>
   </div>
 </section>
@@ -125,7 +125,8 @@ const code = [
 
 <section class="hello">
   <div class="floaters" aria-hidden="true">
-    {skills.map(([i,l,x,y,r]) => <span class="pill" style={`left:${x}%;top:${y}%;transform:rotate(${r}deg)`}><i>{i}</i>{l}</span>)}
+    {skills.map(([l,x,y]) => <span class="layer" style={`left:${x}%;top:${y}%`}>{l}<i class="h tl"></i><i class="h tr"></i><i class="h bl"></i><i class="h br"></i><em class="dim"></em></span>)}
+    <span class="fcursor"><svg viewBox="0 0 24 24"><path d="M4 2l16 9-7 2-3 7z"/></svg><b>Tasnim</b></span>
   </div>
   <div class="wrap">
     <p class="label">Hello!</p>
@@ -182,7 +183,7 @@ const code = [
 
     <div class="scene scene-design" id="sceneDesign">
       <div class="inner">
-        <div><p class="rb-kicker">The rebirth</p><h2 class="rb-title" style="margin-top:8px">I <span class="it">grew</span> into one.</h2></div>
+        <div><h2 class="rb-title">I <span class="it">grew</span> into one.</h2></div>
         <div class="rb-grid">
           <div style="position:relative;display:grid">
             <div class="design-card" id="dcard">
@@ -195,7 +196,8 @@ const code = [
           <ul class="tl" id="desTl">
             <li><span><time>2023</time><b>The challenge</b><small>A to-do app and my first user interviews</small></span></li>
             <li><span><time>2023 — 2025</time><b>OpenBootcamp</b><small>UX/UI & Product Design programme</small></span></li>
-            <li><span><time>2024</time><b>Intuned (YC S22)</b><small>Product designer on a SaaS team</small></span></li>
+            <li><span><time>2024</time><b>Intuned (YC S22)</b><small>Product designer at a YC-backed startup</small></span></li>
+            <li><span><time>2023 →</time><b>OppoTrain</b><small>Designing, training and mentoring new designers</small></span></li>
             <li><span><time>2025</time><b>ITG + freelance</b><small>Enterprise and client products</small></span></li>
             <li class="now"><span><time>Now</time><b>Refocus AI</b><small>AI UX & Insight Visualisation</small></span></li>
           </ul>
