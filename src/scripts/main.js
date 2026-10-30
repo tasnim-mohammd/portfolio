@@ -96,6 +96,36 @@ export function init() {
     }
   }
 
+  // ---------- the booking card actually works (a tiny taste of the craft)
+  const book = $('#bookBtn'), note = $('#bookNote'), slots = $$('.slots button');
+  if (book) {
+    const sub = $('.design-card .sub');
+    slots.forEach((b) => b.addEventListener('click', () => { slots.forEach((x) => { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', x === b); }); if (sub) sub.textContent = sub.textContent.replace(/\d{1,2}:\d{2}/, b.textContent); if (book.classList.contains('done')) reset(); }));
+    const label = $('.bl', book);
+    const reset = () => { book.classList.remove('done'); label.textContent = 'Book now'; note.classList.remove('show'); };
+    book.addEventListener('click', () => {
+      if (book.classList.contains('done')) { reset(); return; }
+      if (book.classList.contains('loading')) return;
+      book.classList.add('loading');
+      setTimeout(() => {
+        book.classList.remove('loading'); book.classList.add('done');
+        label.textContent = `Booked ✓  Sat · ${($('.slots .on') || {}).textContent || '10:00'}`;
+        note.classList.add('show');
+        if (!reduced) {
+          const card = book.closest('.design-card'), cr = card.getBoundingClientRect(), br = book.getBoundingClientRect();
+          const cx = br.left - cr.left + br.width / 2, cy = br.top - cr.top + br.height / 2;
+          const cols = ['#C3999E', '#F0C1AE', '#8E5464', '#3FAE6A', '#F7EAE6'];
+          for (let i = 0; i < 26; i++) {
+            const c = document.createElement('i'); c.className = 'confetti'; c.style.background = cols[i % cols.length];
+            card.appendChild(c);
+            const a = Math.random() * Math.PI - Math.PI, d = gsap.utils.random(60, 160);
+            gsap.fromTo(c, { x: cx, y: cy, rotation: 0, opacity: 1 }, { x: cx + Math.cos(a) * d, y: cy + Math.sin(a) * d + 40, rotation: gsap.utils.random(-260, 260), opacity: 0, duration: gsap.utils.random(.8, 1.3), ease: 'power3.out', onComplete: () => c.remove() });
+          }
+        }
+      }, 650);
+    });
+  }
+
   // ---------- skills as Figma layers, a cursor hops between them
   const layers = $$('.floaters .layer'), fcur = $('.fcursor');
   if (layers.length) {

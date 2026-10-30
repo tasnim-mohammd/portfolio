@@ -188,8 +188,9 @@ const code = [
             <div class="design-card" id="dcard">
               <div class="ph"><img src="/img/pottery.svg" alt="" width="640" height="360" loading="lazy" /></div>
               <div><h4>Pottery for beginners</h4><p class="sub">Sat · 10:00 · Nablus</p></div>
-              <div class="slots"><span class="on">10:00</span><span>12:00</span></div>
-              <button class="book" type="button" tabindex="-1">Book now</button>
+              <div class="slots" role="radiogroup" aria-label="Pick a time"><button type="button" class="on" aria-pressed="true">10:00</button><button type="button" aria-pressed="false">12:00</button></div>
+              <button class="book" id="bookBtn" type="button"><span class="bl">Book now</span></button>
+              <a class="book-note" id="bookNote" href="#contact">Every tap should feel this good. <b>Want a product like this? Let's talk →</b></a>
             </div>
           </div>
           <ul class="tl" id="desTl">
@@ -326,7 +327,6 @@ const code = [
 <section class="sheet on-dark contact" id="contact">
   <div class="wrap">
     <p class="label">Open for conversation</p>
-    <div class="hi-wrap"><img class="hi-pic" src="/img/tasnim-hi.webp" alt="Tasnim waving hello" width="220" height="240" loading="lazy" /><span class="hi-tag">Say hi 👋</span></div>
     <h2>Let's <span class="it">connect.</span></h2>
     <p class="sub">Whether you're hiring or building something new, I'd love to hear about it.</p>
     <div class="mail"><code id="mail">tasnim.mohammd2@gmail.com</code><button class="btn solid" id="copyBtn" type="button">Copy email</button></div>
