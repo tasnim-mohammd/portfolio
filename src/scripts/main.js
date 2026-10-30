@@ -206,13 +206,18 @@ export function init() {
   t.addEventListener('click', () => setWay(t.getAttribute('aria-checked') !== 'true'));
   lr.addEventListener('click', () => setWay(false)); lf.addEventListener('click', () => setWay(true));
 
-  // ---------- copy email
-  const btn = $('#copyBtn'), mail = $('#mail');
-  btn.addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(mail.textContent); btn.textContent = 'Copied ✓'; }
-    catch { const rg = document.createRange(); rg.selectNodeContents(mail); const s = getSelection(); s.removeAllRanges(); s.addRange(rg); btn.textContent = 'Selected'; }
-    setTimeout(() => (btn.textContent = 'Copy email'), 1800);
+  // ---------- copy email (click the address)
+  const mailBtn = $('#mail');
+  if (mailBtn) mailBtn.addEventListener('click', async () => {
+    const addr = $('code', mailBtn).textContent.trim();
+    try { await navigator.clipboard.writeText(addr); $('#copyTip').textContent = 'Copied ✓'; }
+    catch { const rg = document.createRange(); rg.selectNodeContents($('code', mailBtn)); const s = getSelection(); s.removeAllRanges(); s.addRange(rg); $('#copyTip').textContent = 'Selected, press ⌘C'; }
+    mailBtn.classList.add('copied'); clearTimeout(mailBtn._t); mailBtn._t = setTimeout(() => mailBtn.classList.remove('copied'), 1800);
   });
+
+  // ---------- FAQ: one open at a time (fallback for browsers without <details name>)
+  const faqItems = $$('.faq-list details');
+  faqItems.forEach((d) => d.addEventListener('toggle', () => { if (d.open) faqItems.forEach((o) => { if (o !== d) o.open = false; }); }));
 
   // ---------- designer / developer mode
   const d = $('#mDesign'), c = $('#mCode');

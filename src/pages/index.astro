@@ -20,6 +20,9 @@ const before = [
   {co:'Radix Technologies',role:'Front-End Engineer',y:'2023',p:'HTML, CSS and JavaScript, and an AI chatbot that guides tech students to internships.'},
   {co:'An-Najah University',role:'B.Sc Software Engineering',y:'2020 — 2024',p:'Computer Science, apprenticeship programme, software engineering track.'},
 ];
+const MAIL = 'tasnim.mohammd2@gmail.com';
+// Swap this for a Cal.com / Calendly link any time; for now it opens a ready-made Google Calendar invite to Tasnim.
+const BOOK = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent('Intro call with Tasnim Mohammd') + '&details=' + encodeURIComponent("Hi Tasnim, I'd love to chat about ") + '&add=' + encodeURIComponent(MAIL);
 const faqs = [
   ['Do you code too?','Yes. I started as a front-end engineer, and I still build landing pages and portfolio sites with HTML, CSS and JavaScript. It also means my designs are realistic and easy for developers to ship.'],
   ['Are you open to full-time roles?',"Yes. I'm open to Product Design and UI/UX roles, remote or hybrid."],
@@ -171,7 +174,7 @@ const code = [
               <li><span><time>2023</time><b>Opportrain chatbot</b><small>Conversational AI for tech students</small></span></li>
             </ul>
             <div class="chat" id="chat">
-              <span class="who"><i>M</i>My mentor · final year, 2023</span>
+              <span class="who"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-4 3.5V17H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></svg></i>My mentor · final year, 2023</span>
               <p class="bubble">You may not be one of the top five developers here, but you could be one of the <em>top five designers.</em></p>
               <span class="typing" aria-hidden="true"><i></i><i></i><i></i></span>
             </div>
@@ -250,8 +253,7 @@ const code = [
   <div class="wrap">
     <div class="give-top">
       <div>
-        <p class="label left">Giving back</p>
-        <h2 style="margin-top:14px">I grow designers, <span class="it">too.</span></h2>
+        <h2 class="grow-h">I grow designers, <span class="it">too.</span></h2>
         <p style="color:var(--muted);margin-top:20px;max-width:46ch">At OppoTrain I run hands-on UI/UX training and mentor students and fresh graduates through real projects, from research to a portfolio they're proud of.</p>
       </div>
       <div class="stats" data-tag="dl">
@@ -304,7 +306,7 @@ const code = [
           <li>AI product UX and visual explainers</li><li>Developer-ready files and specs</li>
         </ul>
       </div>
-      <a class="btn solid" id="waysCta" href="#contact">Start a conversation <span class="arr">→</span></a>
+      <a class="btn solid" id="waysCta" href={BOOK} target="_blank" rel="noopener">Book a call <span class="arr">→</span></a>
     </div>
   </div>
 </section>
@@ -317,9 +319,9 @@ const code = [
       <aside class="ask" data-tag="aside">
         <div class="who"><img src="/img/tasnim-hi.webp" alt="" width="70" height="70" /><span>Have more <b style="font-weight:600">questions?</b></span></div>
         <a class="btn solid" href="#contact">Let's talk <span class="arr">→</span></a>
-        <small>or email me at <b>tasnim.mohammd2@gmail.com</b></small>
+        <a class="ask-mail" href={`mailto:${MAIL}`}>or email me at <b>{MAIL}</b> <span aria-hidden="true">↗</span></a>
       </aside>
-      <div>{faqs.map(([q,a],i) => <details open={i===0}><summary>{q}</summary><p>{a}</p></details>)}</div>
+      <div class="faq-list">{faqs.map(([q,a],i) => <details name="faq" open={i===0}><summary>{q}</summary><div class="ans"><p>{a}</p></div></details>)}</div>
     </div>
   </div>
 </section>
@@ -329,7 +331,13 @@ const code = [
     <p class="label">Open for conversation</p>
     <h2>Let's <span class="it">connect.</span></h2>
     <p class="sub">Whether you're hiring or building something new, I'd love to hear about it.</p>
-    <div class="mail"><code id="mail">tasnim.mohammd2@gmail.com</code><button class="btn solid" id="copyBtn" type="button">Copy email</button></div>
+    <div class="mail">
+      <button class="mail-pill" id="mail" type="button" aria-label="Copy email address"><code>{MAIL}</code><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg><span class="tip" id="copyTip">Copied ✓</span></button>
+    </div>
+    <div class="mail-cta">
+      <a class="btn solid" href={BOOK} target="_blank" rel="noopener">Book a call <span class="arr">→</span></a>
+      <a class="btn" href={`mailto:${MAIL}`}>Send an email <span class="arr">↗</span></a>
+    </div>
     <div class="socials">
       <a href="https://www.linkedin.com/in/tasnimmohammd/" target="_blank" rel="noopener">LinkedIn ↗</a>
       <a href="https://www.behance.net/tasnimmohammd" target="_blank" rel="noopener">Behance ↗</a>
