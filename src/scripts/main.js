@@ -254,7 +254,15 @@ function rebirth() {
     }));
     const END = .93, SEG = 140;
     let W = 0, H = 0, pr = 1, raf = 0, last = 0;
-    const embers = [];
+    const embers = [], flames = [], smoke = [];
+    const sprite = (stops) => { const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d'), r = g.createRadialGradient(32, 32, 0, 32, 32, 32); stops.forEach(([o, col]) => r.addColorStop(o, col)); g.fillStyle = r; g.fillRect(0, 0, 64, 64); return c; };
+    const SPR = {
+      core: sprite([[0, 'rgba(255,250,225,1)'], [.35, 'rgba(255,214,120,.85)'], [1, 'rgba(255,140,40,0)']]),
+      mid: sprite([[0, 'rgba(255,190,80,.95)'], [.4, 'rgba(255,120,30,.6)'], [1, 'rgba(230,60,10,0)']]),
+      tip: sprite([[0, 'rgba(240,90,25,.75)'], [.5, 'rgba(180,40,10,.35)'], [1, 'rgba(120,20,5,0)']]),
+      smoke: sprite([[0, 'rgba(70,58,58,.32)'], [1, 'rgba(40,30,32,0)']]),
+    };
+    const small = innerWidth < 700, FLAME_RATE = small ? 18 : 44;
     const fit = () => { pr = Math.min(devicePixelRatio, 2); W = stage.clientWidth; H = stage.clientHeight; cv.width = W * pr; cv.height = H * pr; };
     fit(); addEventListener('resize', fit);
     const blobs = (t, tau) => {
@@ -295,6 +303,14 @@ function rebirth() {
         ctx.fill(pathOf(list, 1.5));                                                              // keep only the outer rim
         ctx.restore();
         // spawn embers along the living edge
+        if (t < .9) for (let n = 0; n < FLAME_RATE; n++) {
+          const o = list[(Math.random() * list.length) | 0], th = Math.random() * 6.2832, r = rAt(o, th) + 4;
+          const x = o.cx + Math.cos(th) * r, y = o.cy + Math.sin(th) * r;
+          if (x < -30 || y < -30 || x > W + 30 || y > H + 60 || inside(list, x, y, o)) continue;
+          const big = Math.random() < .18;
+          flames.push({ x, y, vx: rnd(-14, 14), vy: rnd(-190, -90) * (big ? 1.35 : 1), life: 0, max: rnd(.45, 1) * (big ? 1.4 : 1), s: rnd(20, 42) * (big ? 1.7 : 1), ph: rnd(0, 6.28) });
+          if (Math.random() < .12) smoke.push({ x, y: y - 20, vx: rnd(-10, 10), vy: rnd(-60, -30), life: 0, max: rnd(1.4, 2.6), s: rnd(30, 60) });
+        }
         if (t < .9) for (let n = 0; n < 10; n++) {
           const o = list[(Math.random() * list.length) | 0], th = Math.random() * 6.2832, r = rAt(o, th);
           const x = o.cx + Math.cos(th) * r, y = o.cy + Math.sin(th) * r;
@@ -302,6 +318,29 @@ function rebirth() {
           embers.push({ x, y, vx: rnd(-20, 20), vy: rnd(-110, -35), life: 0, max: rnd(.7, 1.9), s: rnd(1, 3), wob: rnd(0, 6) });
         }
       }
+      // smoke (behind the flames)
+      ctx.save();
+      for (let i = smoke.length - 1; i >= 0; i--) {
+        const m = smoke[i]; m.life += dt; if (m.life > m.max) { smoke.splice(i, 1); continue; }
+        const k = m.life / m.max; m.x += (m.vx + Math.sin(tau * 1.3 + m.s) * 12) * dt; m.y += m.vy * dt;
+        const sz = m.s * (1 + k * 2.2); ctx.globalAlpha = Math.sin(k * Math.PI) * .28 * fade;
+        ctx.drawImage(SPR.smoke, m.x - sz / 2, m.y - sz / 2, sz, sz);
+      }
+      ctx.restore();
+      // flames: additive tongues that lick upward and flicker
+      ctx.save(); ctx.globalCompositeOperation = 'lighter';
+      for (let i = flames.length - 1; i >= 0; i--) {
+        const f = flames[i]; f.life += dt; if (f.life > f.max) { flames.splice(i, 1); continue; }
+        const k = f.life / f.max;
+        f.x += (f.vx + Math.sin(tau * 9 + f.ph + k * 6) * 26 * k) * dt; f.y += f.vy * dt; f.vy *= .985;
+        const sz = f.s * (k < .2 ? .6 + k * 2 : 1 - (k - .2) * .9);
+        const spr = k < .28 ? SPR.core : k < .62 ? SPR.mid : SPR.tip;
+        ctx.globalAlpha = (k < .1 ? k * 10 : 1 - k * .85) * .85 * fade;
+        ctx.drawImage(spr, f.x - sz / 2, f.y - sz * 1.1, sz, sz * 2.2);
+      }
+      ctx.restore();
+      if (flames.length > 2200) flames.splice(0, flames.length - 2200);
+      if (smoke.length > 260) smoke.splice(0, smoke.length - 260);
       // embers
       ctx.save(); ctx.globalCompositeOperation = 'lighter';
       for (let i = embers.length - 1; i >= 0; i--) {

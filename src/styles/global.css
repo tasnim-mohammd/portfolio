@@ -202,7 +202,7 @@ h2{font-size:clamp(36px,5.4vw,66px)}
 @keyframes blink{50%{opacity:.25}}
 .design-card{background:#fff;border-radius:24px;padding:14px 14px 18px;box-shadow:0 40px 70px -35px rgba(70,30,45,.45);max-width:360px;display:grid;gap:14px;opacity:0;justify-self:center;width:100%}
 .design-card .ph{aspect-ratio:16/9;border-radius:16px;background:var(--brand);position:relative;overflow:hidden}
-.design-card .ph::after{content:"";position:absolute;width:46%;aspect-ratio:1;border-radius:50%;right:-8%;bottom:-20%;background:rgba(255,255,255,.35)}
+.design-card .ph img{display:block;width:100%;height:100%;object-fit:cover}
 .design-card h4{margin:0;font-weight:600;font-size:20px;letter-spacing:-.02em}
 .design-card .sub{font-size:14px;color:var(--muted)}
 .slots{display:flex;gap:8px}
