@@ -58,8 +58,10 @@ h2{font-size:clamp(36px,5.4vw,66px)}
 
 /* hero */
 .hero{position:relative;padding-block:140px 40px;overflow:hidden}
-.glow{position:absolute;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;background:var(--brand);filter:blur(90px);opacity:0;pointer-events:none;will-change:transform,opacity;transition:opacity 1.2s ease}
-.hero.lit .glow{opacity:.6}
+.glow{position:absolute;left:0;top:0;width:300px;height:300px;margin:-150px 0 0 -150px;border-radius:50%;background:var(--brand);filter:blur(55px);opacity:0;pointer-events:none;will-change:transform,opacity;transition:opacity 1.2s ease}
+.hero.lit .glow{opacity:.55}
+.spark{position:absolute;left:0;top:0;pointer-events:none;z-index:3;will-change:transform,opacity}
+.spark svg{display:block;width:100%;height:100%;filter:drop-shadow(0 0 6px rgba(240,193,174,.9))}
 .hero .wrap{position:relative}
 .blob{position:absolute;border-radius:50%;background:var(--brand);filter:blur(90px);opacity:.5;pointer-events:none;will-change:transform}
 .hero-grid{display:grid;grid-template-columns:1.3fr .8fr;gap:56px;align-items:center;position:relative}

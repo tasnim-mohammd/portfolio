@@ -66,11 +66,26 @@ export function init() {
     if (hero && glow) {
       const gx = gsap.quickTo(glow, 'x', { duration: 1.6, ease: 'power3.out' }), gy = gsap.quickTo(glow, 'y', { duration: 1.6, ease: 'power3.out' });
       const drift = [[b1, .3, .22], [b2, -.22, -.18]].filter(([el]) => el).map(([el, sx, sy]) => ({ x: gsap.quickTo(el, 'x', { duration: 2.6, ease: 'power2.out' }), y: gsap.quickTo(el, 'y', { duration: 2.6, ease: 'power2.out' }), sx, sy }));
-      let first = true;
+      let first = true, lastT = 0, lx = 0, ly = 0;
+      const tones = ['#ffffff', '#F0C1AE', '#C3999E', '#B07A85'];
+      const spark = (x, y) => {
+        const s = document.createElement('span'), size = gsap.utils.random(10, 19);
+        s.className = 'spark';
+        s.innerHTML = `<svg viewBox="0 0 24 24"><path fill="${tones[(Math.random() * tones.length) | 0]}" d="M12 0c.7 6.6 5.4 11.3 12 12-6.6.7-11.3 5.4-12 12-.7-6.6-5.4-11.3-12-12C6.6 11.3 11.3 6.6 12 0z"/></svg>`;
+        Object.assign(s.style, { width: `${size}px`, height: `${size}px` });
+        hero.appendChild(s);
+        const ox = gsap.utils.random(-18, 18), oy = gsap.utils.random(-18, 18);
+        gsap.timeline({ onComplete: () => s.remove() })
+          .fromTo(s, { x: x + ox - size / 2, y: y + oy - size / 2, scale: 0, rotation: 0, opacity: 1 }, { scale: 1, rotation: 90, duration: .35, ease: 'back.out(3)' })
+          .to(s, { y: `-=${gsap.utils.random(14, 30)}`, scale: 0, rotation: 180, opacity: 0, duration: 1, ease: 'power2.in' }, .45);
+      };
+      gsap.to(glow, { scale: 1.18, duration: 1.8, ease: 'sine.inOut', yoyo: true, repeat: -1 });
       hero.addEventListener('mousemove', (e) => {
         const r = hero.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
         if (first) { gsap.set(glow, { x, y }); first = false; }
         gx(x); gy(y); hero.classList.add('lit');
+        const now = performance.now();
+        if (now - lastT > 70 && Math.hypot(x - lx, y - ly) > 46) { lastT = now; lx = x; ly = y; spark(x, y); }
         const dx = e.clientX - innerWidth / 2, dy = e.clientY - innerHeight / 2;
         drift.forEach((o) => { o.x(dx * o.sx); o.y(dy * o.sy); });
       }, { passive: true });
