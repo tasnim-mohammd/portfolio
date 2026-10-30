@@ -60,16 +60,22 @@ export function init() {
   if (reduced) ws.forEach((w) => w.classList.add('on'));
   else ScrollTrigger.create({ trigger: r, start: 'top 80%', end: 'bottom 40%', scrub: true,
     onUpdate: (s) => { const n = Math.round(s.progress * ws.length); ws.forEach((w, i) => w.classList.toggle('on', i < n)); } });
-  // ---------- hero glow drifts softly after the mouse
+  // ---------- hero glow follows the mouse, edge blobs drift softly
   if (!reduced && matchMedia('(hover:hover)').matches) {
-    const b1 = $('.blob.b1'), b2 = $('.blob.b2');
-    if (b1 && b2) {
-      const q = [[b1, .14, .1], [b2, -.1, -.08]].map(([el, sx, sy]) => ({ x: gsap.quickTo(el, 'x', { duration: 2.4, ease: 'power2.out' }), y: gsap.quickTo(el, 'y', { duration: 2.4, ease: 'power2.out' }), sx, sy }));
-      window.addEventListener('mousemove', (e) => {
+    const hero = $('.hero'), glow = $('.glow', hero), b1 = $('.blob.b1'), b2 = $('.blob.b2');
+    if (hero && glow) {
+      const gx = gsap.quickTo(glow, 'x', { duration: 1.6, ease: 'power3.out' }), gy = gsap.quickTo(glow, 'y', { duration: 1.6, ease: 'power3.out' });
+      const drift = [[b1, .3, .22], [b2, -.22, -.18]].filter(([el]) => el).map(([el, sx, sy]) => ({ x: gsap.quickTo(el, 'x', { duration: 2.6, ease: 'power2.out' }), y: gsap.quickTo(el, 'y', { duration: 2.6, ease: 'power2.out' }), sx, sy }));
+      let first = true;
+      hero.addEventListener('mousemove', (e) => {
+        const r = hero.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+        if (first) { gsap.set(glow, { x, y }); first = false; }
+        gx(x); gy(y); hero.classList.add('lit');
         const dx = e.clientX - innerWidth / 2, dy = e.clientY - innerHeight / 2;
-        q.forEach((o) => { o.x(dx * o.sx * 2); o.y(dy * o.sy * 2); });
+        drift.forEach((o) => { o.x(dx * o.sx); o.y(dy * o.sy); });
       }, { passive: true });
-      gsap.to([b1, b2], { scale: 1.12, duration: 6, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: 3 });
+      hero.addEventListener('mouseleave', () => { hero.classList.remove('lit'); drift.forEach((o) => { o.x(0); o.y(0); }); });
+      gsap.to([b1, b2].filter(Boolean), { scale: 1.12, duration: 6, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: 3 });
     }
   }
 
