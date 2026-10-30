@@ -261,19 +261,23 @@ h2{font-size:clamp(36px,5.4vw,66px)}
 .stats span{font-size:14px;color:var(--muted)}
 .road-h{margin-top:96px;display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
 .road{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:32px}
-.trip{position:relative;border-radius:28px;overflow:hidden;min-height:340px;padding:28px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;text-decoration:none;isolation:isolate}
-.trip::before{content:"";position:absolute;inset:0;z-index:-2;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
-.trip:hover::before{transform:scale(1.06)}
-.trip::after{content:"";position:absolute;inset:0;z-index:-1;background-image:radial-gradient(rgba(255,255,255,.22) 1.2px,transparent 1.4px);background-size:16px 16px;mask:linear-gradient(160deg,#000 10%,transparent 70%)}
-.trip.qa::before{background:linear-gradient(150deg,#5C1A2E,#8E2C46 50%,#C3999E)}
-.trip.de::before{background:linear-gradient(150deg,#1F2533,#3A4256 50%,#8E5464)}
+.trip{position:relative;border-radius:28px;overflow:hidden;min-height:480px;padding:28px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;text-decoration:none;isolation:isolate;background:#2a2024;clip-path:inset(0 round 28px);-webkit-mask-image:-webkit-radial-gradient(white,black);mask-image:radial-gradient(white,black)}
+.trip .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.trip:hover .bg{transform:scale(1.05)}
+.trip::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none}
+.trip.qa::after{background:linear-gradient(180deg,rgba(40,10,20,.35) 0%,rgba(40,10,20,0) 30%,rgba(60,14,30,.25) 55%,rgba(52,12,28,.9) 100%)}
+.trip.de::after{background:linear-gradient(180deg,rgba(20,24,34,.35) 0%,rgba(20,24,34,0) 30%,rgba(28,30,44,.3) 55%,rgba(24,26,38,.92) 100%)}
 .trip .where{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.trip .chip{background:rgba(255,255,255,.16);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);padding:6px 12px;border-radius:999px;font:12px var(--mono)}
-.trip .coords{font:12px var(--mono);opacity:.7;text-align:right}
-.trip h3{font-size:clamp(28px,3vw,40px);font-weight:500}
-.trip p{opacity:.85;max-width:44ch;margin-top:8px;font-size:16px}
-.trip .read{margin-top:18px;display:inline-flex;font-size:14px;border-bottom:1px solid rgba(255,255,255,.6);padding-bottom:2px;width:max-content}
-.pin{position:absolute;right:14%;top:42%;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 0 0 6px rgba(255,255,255,.25),0 0 0 16px rgba(255,255,255,.1);z-index:-1}
+.trip .chip{background:rgba(20,14,16,.35);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.28);padding:6px 12px;border-radius:999px;font:12px var(--mono)}
+.trip .coords{font:12px var(--mono);text-align:right;padding:6px 10px;border-radius:10px;background:rgba(20,14,16,.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.trip h3{font-size:clamp(28px,3vw,40px);font-weight:500;text-shadow:0 2px 20px rgba(0,0,0,.25)}
+.trip p{opacity:.9;max-width:44ch;margin-top:8px;font-size:16px}
+.trip .read{position:relative;margin-top:18px;display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;padding:9px 16px 9px 18px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden;isolation:isolate;transition:color .4s,border-color .4s;width:max-content}
+.trip .read::before{content:"";position:absolute;inset:0;z-index:-1;background:#fff;border-radius:inherit;transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.trip .read .ra{display:inline-block;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.trip:hover .read{color:var(--ink);border-color:#fff}
+.trip:hover .read::before{transform:scaleX(1)}
+.trip:hover .read .ra{transform:translate(3px,-3px) rotate(0deg)}
 
 /* ways */
 .ways{padding-block:110px;background:var(--paper-2);border-radius:56px;margin-inline:8px}
