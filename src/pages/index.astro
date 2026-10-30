@@ -27,8 +27,8 @@ const faqs = [
   ['Are you open to full-time roles?',"Yes. I'm open to Product Design and UI/UX roles, remote or hybrid."],
   ['What kind of freelance projects do you take?',"Web and mobile products, MVPs, clickable prototypes, landing pages and UX audits. If you're not sure it fits, ask anyway."],
   ['What tools do you use?','Figma for design and prototyping, Jira and Notion for teamwork, Draw.io for flows, and code when a prototype needs to feel real.'],
-  ['Which languages do you work in?','Arabic natively and English professionally.'],
-  ['How do we start?',"Send me a short email about your team or your product. I'll reply with a few questions and we'll set up a call."],
+  ['Which languages do you work in?',"Arabic and English. Most of my day-to-day work is in English, with teams and clients across the Gulf, Europe and the US, from async feedback to live client calls."],
+  ['How do we start?',`The fastest way is to <a class="faq-link" href="https://cal.com/tasnim-mohammd/intro-call" target="_blank" rel="noopener">book a 30-min intro call ↗</a> and we'll talk directly. Prefer writing? <a class="faq-link" href="mailto:tasnim.mohammd2@gmail.com">Send me an email</a> about your team or product.`],
 ];
 const code = [
   '<span class="c">// booking-card.html</span>',
@@ -320,7 +320,7 @@ const code = [
         <a class="btn solid" href="#contact">Let's talk <span class="arr">→</span></a>
         <a class="ask-mail" href={`mailto:${MAIL}`}>or email me at <b>{MAIL}</b> <span aria-hidden="true">↗</span></a>
       </aside>
-      <div class="faq-list">{faqs.map(([q,a],i) => <details name="faq" open={i===0}><summary>{q}</summary><div class="ans"><p>{a}</p></div></details>)}</div>
+      <div class="faq-list">{faqs.map(([q,a],i) => <details name="faq" open={i===0}><summary>{q}</summary><div class="ans"><p set:html={a} /></div></details>)}</div>
     </div>
   </div>
 </section>

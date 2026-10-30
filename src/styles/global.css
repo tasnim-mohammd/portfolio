@@ -420,3 +420,5 @@ body.code img{filter:grayscale(1)}
 
 .grow-h{white-space:nowrap;font-size:clamp(32px,3.5vw,54px)}
 @media (max-width:640px){.grow-h{white-space:normal}}
+.faq-link{color:var(--deep);font-weight:500;text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;transition:background-size .35s,color .3s}
+.faq-link:hover{background-size:0 1px;color:var(--ink)}
