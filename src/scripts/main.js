@@ -49,7 +49,6 @@ export function init() {
     });
     const curve = $('.pen .curve');
     if (curve) { const L = curve.getTotalLength(); gsap.fromTo(curve, { strokeDasharray: L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 2, ease: 'power2.inOut', delay: .6 }); }
-        gsap.from('.sticker', { scale: 0, opacity: 0, duration: .8, ease: 'back.out(2)', stagger: .15, delay: .9 });
   }
 
   // ---------- hello word reveal
@@ -58,7 +57,7 @@ export function init() {
   r.innerHTML = words.map((w) => `<span class="w">${w}</span>`).join(' ');
   const ws = $$('.w', r);
   if (reduced) ws.forEach((w) => w.classList.add('on'));
-  else ScrollTrigger.create({ trigger: r, start: 'top 80%', end: 'bottom 40%', scrub: true,
+  else ScrollTrigger.create({ trigger: r, start: 'top 85%', end: 'center 50%', scrub: true,
     onUpdate: (s) => { const n = Math.round(s.progress * ws.length); ws.forEach((w, i) => w.classList.toggle('on', i < n)); } });
   // ---------- hero glow follows the mouse, edge blobs drift softly
   if (!reduced && matchMedia('(hover:hover)').matches) {
@@ -190,11 +189,19 @@ export function init() {
     });
   }
 
-  // ---------- counters
-  $$('[data-count]').forEach((el) => {
-    const to = +el.dataset.count; const o = { v: 0 };
-    ScrollTrigger.create({ trigger: el, start: 'top 90%', once: true, onEnter: () => gsap.to(o, { v: to, duration: 1.6, ease: 'power2.out', onUpdate: () => { el.textContent = Math.round(o.v).toLocaleString('en-US') + '+'; } }) });
-  });
+  // ---------- counters (IntersectionObserver: immune to stale scroll positions)
+  const counters = $$('[data-count]');
+  const fmt = (n) => Math.round(n).toLocaleString('en-US') + '+';
+  if (reduced || !('IntersectionObserver' in window)) counters.forEach((el) => (el.textContent = fmt(+el.dataset.count)));
+  else {
+    counters.forEach((el) => (el.textContent = fmt(0)));
+    const io = new IntersectionObserver((ents) => ents.forEach((e) => {
+      if (!e.isIntersecting) return; io.unobserve(e.target);
+      const el = e.target, to = +el.dataset.count, o = { v: 0 };
+      gsap.to(o, { v: to, duration: 1.6, ease: 'power2.out', onUpdate: () => (el.textContent = fmt(o.v)), onComplete: () => (el.textContent = fmt(to)) });
+    }), { threshold: .4 });
+    counters.forEach((el) => io.observe(el));
+  }
 
   // ---------- ways toggle
   const t = $('#tog'), pr = $('#paneRole'), pf = $('#paneFree'), lr = $('#lblRole'), lf = $('#lblFree');
@@ -230,6 +237,9 @@ export function init() {
   try { if (localStorage.getItem('tm-mode') === 'code') setMode(true); } catch {}
 
   addEventListener('load', () => ScrollTrigger.refresh());
+  let rt; const later = () => { clearTimeout(rt); rt = setTimeout(() => ScrollTrigger.refresh(), 200); };
+  $$('img').forEach((im) => { if (!im.complete) im.addEventListener('load', later, { once: true }); });
+  if (document.fonts) document.fonts.ready.then(later);
 }
 
 function rebirth() {
@@ -261,7 +271,7 @@ function rebirth() {
     .to(editor, { opacity: 0, filter: 'blur(6px)', duration: 1.2 }, 3.1)
     .to('.scene-dev .side, .scene-dev .rb-title, .scene-dev .rb-kicker', { opacity: 0, duration: 1 }, 3.6)
     .fromTo(card, { opacity: 0, scale: .85, rotate: -4 }, { opacity: 1, scale: 1, rotate: 0, duration: 1, ease: 'back.out(1.6)' }, 6.3)
-    .from('#sceneDesign .rb-title, #sceneDesign .rb-kicker', { y: 30, opacity: 0, duration: .8 }, 6.1)
+    .from('#sceneDesign .rb-title, #sceneDesign .rb-kicker, #sceneDesign .rb-echo', { y: 30, opacity: 0, duration: .8 }, 6.1)
     .to(desTl, { opacity: 1, stagger: .3, duration: .4 }, 6.6)
     .to({}, { duration: 1.2 });
 
