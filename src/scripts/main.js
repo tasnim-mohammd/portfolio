@@ -128,7 +128,11 @@ export function init() {
   // ---------- hero video: waves once when seen, again on hover / tap
   const hv = $('#helloVid');
   if (hv) {
-    if (reduced) { hv.poster = '/img/hello-end.webp'; hv.removeAttribute('autoplay'); }
+    // transparent VP9 where supported; Safari/iOS get a version baked onto the page colour
+    const ua = navigator.userAgent, safari = /Safari\//.test(ua) && !/Chrome|Chromium|Edg\//.test(ua);
+    const canAlpha = !safari && hv.canPlayType('video/webm; codecs="vp9"');
+    hv.src = canAlpha ? hv.dataset.alpha : hv.dataset.flat;
+    if (reduced) { hv.poster = '/img/hello-end-a.webp'; hv.removeAttribute('autoplay'); }
     else {
       const wave = () => { try { hv.currentTime = 0; const pr = hv.play(); if (pr) pr.catch(() => {}); } catch {} };
       let first = true;
