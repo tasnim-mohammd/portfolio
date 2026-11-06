@@ -78,9 +78,11 @@ h1 .it,h2 .it,h3 .it{-webkit-text-stroke:.022em currentColor;paint-order:stroke 
 .pen rect{fill:var(--paper);stroke:var(--deep);stroke-width:1.5}.pen circle{fill:var(--deep)}
 .hero .lead{font-size:clamp(18px,1.6vw,21px);color:var(--muted);max-width:56ch;margin-top:28px}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
-.portrait{position:relative;justify-self:center;width:min(100%,420px)}
-.portrait .frame{border-radius:32px;overflow:hidden;aspect-ratio:4/5;transform:rotate(2.5deg);box-shadow:0 40px 70px -35px rgba(70,30,45,.6);background:var(--brand)}
-.portrait .frame{position:relative}
+.portrait{position:relative;justify-self:center;width:min(100%,500px);margin-block:-40px -70px}
+.portrait::before{content:"";position:absolute;inset:8% 6% 14%;border-radius:50%;background:radial-gradient(closest-side,rgba(195,153,158,.55),rgba(240,193,174,.25) 60%,transparent);filter:blur(30px);z-index:-1}
+.portrait .frame{position:relative;aspect-ratio:4/5;
+  -webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 48%,#000 58%,transparent 100%),linear-gradient(#000 70%,transparent 98%);
+  -webkit-mask-composite:source-in;mask-image:radial-gradient(ellipse 50% 50% at 50% 48%,#000 58%,transparent 100%),linear-gradient(#000 70%,transparent 98%);mask-composite:intersect}
 .hello-vid{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 30%;cursor:pointer}
 .services{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:80px;list-style:none;padding:0}
 .services li{border-top:1px solid var(--line);padding-top:16px;display:grid;gap:2px}
