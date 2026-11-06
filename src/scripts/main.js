@@ -125,6 +125,19 @@ export function init() {
     });
   }
 
+  // ---------- hero video: waves once when seen, again on hover / tap
+  const hv = $('#helloVid');
+  if (hv) {
+    if (reduced) { hv.poster = '/img/hello-end.webp'; hv.removeAttribute('autoplay'); }
+    else {
+      const wave = () => { try { hv.currentTime = 0; const pr = hv.play(); if (pr) pr.catch(() => {}); } catch {} };
+      let first = true;
+      new IntersectionObserver(([e]) => { if (e.isIntersecting && first) { first = false; setTimeout(wave, 700); } }, { threshold: .5 }).observe(hv);
+      hv.closest('.frame').addEventListener('mouseenter', () => { if (hv.paused || hv.ended) wave(); });
+      hv.addEventListener('click', () => { if (hv.paused || hv.ended) wave(); });
+    }
+  }
+
   // ---------- skills as Figma layers, a cursor hops between them
   const layers = $$('.floaters .layer'), fcur = $('.fcursor');
   if (layers.length) {
