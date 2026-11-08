@@ -142,6 +142,14 @@ export function init() {
     }
   }
 
+  // ---------- work-in-progress note (dismiss for this visit)
+  const wip = $('#wip');
+  if (wip) {
+    try { if (sessionStorage.getItem('wip-off')) wip.remove(); } catch {}
+    const x = $('#wipClose');
+    if (x) x.addEventListener('click', () => { wip.classList.add('out'); try { sessionStorage.setItem('wip-off', '1'); } catch {} setTimeout(() => wip.remove(), 400); });
+  }
+
   // ---------- skills as Figma layers, a cursor hops between them
   const layers = $$('.floaters .layer'), fcur = $('.fcursor');
   if (layers.length) {
