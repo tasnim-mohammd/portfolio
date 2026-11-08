@@ -75,25 +75,31 @@ const code = [
 </header>
 
 <main id="top">
-<section class="hero">
-  <div class="glow" aria-hidden="true"></div>
-  <div class="blob b1" style="width:440px;height:440px;left:-200px;top:60px"></div>
-  <div class="blob b2" style="width:420px;height:420px;right:-180px;bottom:-60px"></div>
-  <div class="wrap">
-    <div class="hero-grid">
-      <div data-tag="header">
-        <p class="hi up">Hi, I'm <strong>Tasnim</strong> <img src="/img/tasnim-hi.webp" alt="" width="40" height="40" /> Product Designer</p>
-        <h1 class="up">Designing products<br /> for founders and teams<br /> who <span class="it">won't settle.</span></h1>
-        <p class="lead up">I help teams turn ideas into usable products through research, thoughtful UX and polished UI. From the first user interview to the final handoff, I make complex flows feel clear and intuitive.</p>
-        <div class="hero-cta up">
-          <a class="btn solid" href="#work">See my work <span class="arr">→</span></a>
-          <a class="btn" href="#ways" data-end="#waysCta">Work with me</a>
-        </div>
-      </div>
-      <div class="portrait up" data-tag="figure">
-        <div class="frame"><video class="hello-vid" id="helloVid" muted playsinline preload="auto" poster="/img/hello-start-a.webp" aria-label="Illustration of Tasnim waving hello" width="832" height="1024" data-alpha="/img/hello-alpha.webm" data-flat="/img/hello-flat.mp4"></video></div>
+<section class="intro" id="intro" aria-label="Introduction">
+  <div class="hero intro-stage" id="introStage">
+    <div class="glow" aria-hidden="true"></div>
+    <div class="blob b1" style="width:440px;height:440px;left:-200px;top:60px"></div>
+    <div class="blob b2" style="width:420px;height:420px;right:-180px;bottom:-60px"></div>
+    <div class="ihalo" id="ihalo" aria-hidden="true"></div>
+    <canvas class="phx-cv" id="phxBack" aria-hidden="true"></canvas>
+    <div class="ihero" id="ihero" data-tag="header">
+      <p class="hi" id="ihi">Hi, I'm <strong>Tasnim</strong> <span class="slot" id="islot"></span> Product Designer</p>
+      <h1><span class="l">Designing products</span> <span class="l">for founders and teams</span> <span class="l">who <span class="it">won't settle.</span></span></h1>
+      <div class="hero-cta" id="icta">
+        <a class="btn solid" href="#work">See my work <span class="arr">→</span></a>
+        <a class="btn" href="#ways" data-end="#waysCta">Work with me</a>
       </div>
     </div>
+    <div class="ifig" id="ifig"><div class="avbg" id="iavbg"></div><video class="hello-vid" id="helloVid" muted playsinline preload="auto" poster="/img/hello-start-a.webp" aria-label="Illustration of Tasnim waving hello" width="832" height="1024" data-alpha="/img/hello-alpha.webm" data-flat="/img/hello-flat.mp4"></video></div>
+    <div class="iring" id="iring" aria-hidden="true"></div>
+    <div class="iname" id="iname"><b>Tasnim Mohammd</b><span>Product Designer</span></div>
+    <div class="ihint" id="ihint" aria-hidden="true"><i></i>Scroll</div>
+    <canvas class="phx-cv front" id="phxFront" aria-hidden="true"></canvas>
+  </div>
+</section>
+
+<section class="hero-after">
+  <div class="wrap">
     <ol class="services" data-tag="ol">
       <li class="up"><span>#01</span><b>Product Design</b><small>End-to-end, research to prototype</small></li>
       <li class="up"><span>#02</span><b>UX Research</b><small>Interviews, flows, usability tests</small></li>

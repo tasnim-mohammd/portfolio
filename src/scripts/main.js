@@ -1,6 +1,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
+import PHX from './phoenix.js';
 
 gsap.registerPlugin(ScrollTrigger);
 const $ = (s, r = document) => r.querySelector(s);
@@ -125,22 +126,8 @@ export function init() {
     });
   }
 
-  // ---------- hero video: waves once when seen, again on hover / tap
-  const hv = $('#helloVid');
-  if (hv) {
-    // transparent VP9 where supported; Safari/iOS get a version baked onto the page colour
-    const ua = navigator.userAgent, safari = /Safari\//.test(ua) && !/Chrome|Chromium|Edg\//.test(ua);
-    const canAlpha = !safari && hv.canPlayType('video/webm; codecs="vp9"');
-    hv.src = canAlpha ? hv.dataset.alpha : hv.dataset.flat;
-    if (reduced) { hv.poster = '/img/hello-end-a.webp'; hv.removeAttribute('autoplay'); }
-    else {
-      const wave = () => { try { hv.currentTime = 0; const pr = hv.play(); if (pr) pr.catch(() => {}); } catch {} };
-      let first = true;
-      new IntersectionObserver(([e]) => { if (e.isIntersecting && first) { first = false; setTimeout(wave, 700); } }, { threshold: .5 }).observe(hv);
-      hv.closest('.frame').addEventListener('mouseenter', () => { if (hv.paused || hv.ended) wave(); });
-      hv.addEventListener('click', () => { if (hv.paused || hv.ended) wave(); });
-    }
-  }
+  // ---------- intro: she waves → a fire phoenix circles her → she becomes the avatar in the hero
+  intro();
 
   // ---------- work-in-progress note (dismiss for this visit)
   const wip = $('#wip');
@@ -492,4 +479,94 @@ function rebirth() {
     };
     render(state.flight);
   }
+}
+
+
+function intro() {
+  const stage = $('#introStage'); if (!stage) return;
+  const fig = $('#ifig'), hv = $('#helloVid'), halo = $('#ihalo'), slotEl = $('#islot'), ring = $('#iring');
+  const nameEl = $('#iname'), hint = $('#ihint'), avbg = $('#iavbg'), navEl = $('#nav');
+  const lines = $$('.ihero h1 .l'), hiEl = $('#ihi'), cta = $('#icta');
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const seg = (t, a, b) => clamp((t - a) / (b - a));
+  const ease = (x) => (x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+  const eo = (x) => 1 - Math.pow(1 - x, 3);
+  const lerp = (a, b, k) => a + (b - a) * k;
+
+  // video source: transparent VP9 where supported, flat version for Safari/iOS
+  const ua = navigator.userAgent, safari = /Safari\//.test(ua) && !/Chrome|Chromium|Edg\//.test(ua);
+  hv.src = !safari && hv.canPlayType('video/webm; codecs="vp9"') ? hv.dataset.alpha : hv.dataset.flat;
+
+  let L = {};
+  const layout = () => {
+    const vw = stage.clientWidth, vh = stage.clientHeight;
+    const FH = Math.min(640, vh * .8, (vw * .86) * 640 / 520), FW = FH * 520 / 640;
+    L = { vw, vh, FW, FH, FX: (vw - FW) / 2, FY: (vh - FH) / 2 + 6, k: FW / 520 };
+    L.HEAD = { x: FW * .529, y: FH * .29, r: FW * .246 };
+    L.C = { x: vw / 2, y: L.FY + FH * .42 };
+    Object.assign(fig.style, { width: FW + 'px', height: FH + 'px' });
+    nameEl.style.top = (L.FY + FH - 74 * L.k) + 'px';
+    const hs = FW * 1.58; Object.assign(halo.style, { width: hs + 'px', height: hs + 'px', left: (vw - hs) / 2 + 'px', top: (L.FY + FH * .36 - hs / 2) + 'px' });
+  };
+
+  const bird = PHX.create();
+  const fx = reduced ? null : PHX.mount($('#phxBack'), $('#phxFront'), bird);
+  const path = (k) => {
+    const a = Math.PI * .78 + k * Math.PI * 2.5, base = 330 * L.k;
+    const R = lerp(Math.max(L.vw, 980 * L.k), base, eo(clamp(k / .22))) + Math.pow(clamp((k - .8) / .2), 2) * 700 * L.k;
+    const lift = (k * 150 + Math.pow(clamp((k - .78) / .22), 2) * 420) * L.k;
+    return { x: L.C.x + Math.cos(a) * R, y: L.C.y + Math.sin(a) * 105 * L.k * (R / base) - lift + 40 * L.k, z: Math.sin(a) };
+  };
+
+  let T = -1;
+  const setT = (t) => {
+    T = t;
+    hint.style.opacity = 1 - seg(t, 0, .05);
+    nameEl.style.opacity = 1 - seg(t, .52, .6);
+    // phoenix
+    const k = seg(t, .04, .62);
+    bird.active = !reduced && t > .04 && t < .62;
+    if (bird.active) {
+      const p = path(k), p2 = path(Math.min(1, k + .004));
+      Object.assign(bird, { x: p.x, y: p.y, z: p.z, heading: Math.atan2(p2.y - p.y, p2.x - p.x), scale: (.62 + .34 * (p.z + 1) / 2) * L.k, front: p.z > -.05, alpha: Math.min(1, k * 12) * (1 - seg(k, .93, 1)) });
+    }
+    const kh = seg(t, .14, .48), kh2 = seg(t, .58, .7);
+    halo.style.opacity = (eo(kh) * (1 - kh2) * .95).toFixed(3);
+    halo.style.transform = `scale(${.75 + kh * .3})`;
+    // hero copy (before measuring the avatar slot)
+    const reveal = (el, a, b) => { const q = eo(seg(t, a, b)); el.style.opacity = q; el.style.transform = `translateY(${(1 - q) * 26}px)`; };
+    reveal(hiEl, .72, .84);
+    lines.forEach((l, i) => reveal(l, .76 + i * .05, .88 + i * .05));
+    reveal(cta, .9, 1);
+    // figure → avatar
+    const sr = stage.getBoundingClientRect(), r0 = slotEl.getBoundingClientRect();
+    const slot = { x: r0.left - sr.left, y: r0.top - sr.top, w: r0.width };
+    const km = ease(seg(t, .6, .84)), H = L.HEAD;
+    const s = lerp(1, (slot.w / 2) / H.r, km);
+    const tx = lerp(L.FX, slot.x + slot.w / 2 - H.x * s, km), ty = lerp(L.FY, slot.y + slot.w / 2 - H.y * s, km);
+    const r = lerp(Math.hypot(L.FW, L.FH), H.r, ease(seg(t, .6, .76)));
+    fig.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
+    fig.style.clipPath = `circle(${r}px at ${H.x}px ${H.y}px)`;
+    avbg.style.opacity = seg(t, .66, .8);
+    Object.assign(ring.style, { left: slot.x + 'px', top: slot.y + 'px', width: slot.w + 'px', height: slot.w + 'px', opacity: seg(t, .82, .9) });
+    // nav waits for the hero
+    navEl.classList.toggle('intro-hide', t < .88);
+  };
+  layout();
+
+  if (reduced) { hv.poster = '/img/hello-end-a.webp'; setT(1); addEventListener('resize', () => { layout(); setT(1); }); return; }
+
+  const st = { t: 0 };
+  gsap.to(st, { t: 1, ease: 'none', onUpdate: () => setT(st.t),
+    scrollTrigger: { trigger: stage, start: 'top top', end: '+=170%', pin: true, scrub: .7, anticipatePin: 1,
+      onRefresh: () => { layout(); setT(st.t); } } });
+  setT(0);
+  new IntersectionObserver(([e]) => (e.isIntersecting ? fx.start() : fx.stop())).observe(stage);
+  // she waves on arrival, and again when tapped/hovered while she is big
+  const wave = () => { try { hv.currentTime = 0; const pr = hv.play(); if (pr) pr.catch(() => {}); } catch {} };
+  setTimeout(wave, 500);
+  fig.addEventListener('mouseenter', () => { if (T < .3 && (hv.paused || hv.ended)) wave(); });
+  fig.addEventListener('click', () => { if (T < .3 && (hv.paused || hv.ended)) wave(); });
+  // the nav "Let's talk" button appears once the hero is behind us
+  ScrollTrigger.create({ trigger: '.hero-after', start: 'top 80%', onEnter: () => navEl.classList.add('cta-on'), onLeaveBack: () => navEl.classList.remove('cta-on') });
 }
